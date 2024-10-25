@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 interface Ingredient {
   nom: string;
@@ -10,13 +10,16 @@ interface Etape {
   ordre: number;
 }
 
-export interface Recette extends Document {
+export interface IRecette {
+  _id?: string; 
   titre: string;
   ingredients: Ingredient[];
   etapes: Etape[];
-  tempsPreparation: number; // en minutes
-  tempsCuisson: number; // en minutes
+  tempsPreparation: number; 
+  tempsCuisson: number; 
   portions: number;
+  auteur?: string;            
+  dateCreation?: Date;        
 }
 
 const ingredientSchema = new Schema<Ingredient>({
@@ -29,15 +32,125 @@ const etapeSchema = new Schema<Etape>({
   ordre: { type: Number, required: true },
 });
 
-const recetteSchema = new Schema<Recette>({
+const recetteSchema = new Schema<IRecette>({
   titre: { type: String, required: true },
-  ingredients: { type: [ingredientSchema], required: true },
+  ingredients: { 
+    type: [ingredientSchema], 
+    required: true,
+    validate: {
+      validator: function(ingredients: Ingredient[]) {
+        return ingredients.every(ingredient => 
+          ingredient.nom.length > 1 && 
+          ingredient.nom.length <= 50 &&
+          ingredient.quantite.length > 0
+        );
+      },
+      message: 'Chaque ingrédient doit avoir un nom entre 2 et 50 caractères et une quantité non vide.'
+    }
+  },
   etapes: { type: [etapeSchema], required: true },
   tempsPreparation: { type: Number, required: true },
   tempsCuisson: { type: Number, required: true },
-  portions: { type: Number, required: true },
+  portions: { 
+    type: Number, 
+    required: true, 
+    min: [1, 'Il doit y avoir au moins 1 portion.'],
+    max: [12, 'Le nombre de portions ne doit pas dépasser 12.'],
+    validate: {
+      validator: Number.isInteger,
+      message: 'Le nombre de portions doit être un entier.'
+    }
+  },
+  auteur: { type: String, required: false },            
+  dateCreation: { type: Date, required: false },  
 });
 
-const RecetteModel = mongoose.model<Recette>('Recette', recetteSchema);
+// Validation de recette
+export function from(param: object): IRecette {
+  if (!isRecette(param)) {
+    throw new Error("Les paramètres de l'objet ne sont pas conformes");
+  }
+  const p = param as IRecette;
+  return new_(
+    p._id,
+    p.titre,
+    p.ingredients,
+    p.etapes,
+    p.tempsPreparation,
+    p.tempsCuisson,
+    p.portions,
+    p.auteur,
+    p.dateCreation,
+  );
+}
+
+export function isRecette(arg: unknown): boolean {
+  return (
+    !!arg &&
+    typeof arg === 'object' &&
+    'titre' in arg &&
+    'ingredients' in arg &&
+    'etapes' in arg &&
+    'tempsPreparation' in arg &&
+    'tempsCuisson' in arg &&
+    'portions' in arg &&
+    (!('_id' in arg) || typeof (arg as any)._id === 'string') &&
+    'auteur' in arg &&
+    'dateCreation' in arg 
+  );
+}
+
+export function new_(
+  _id?: string,
+  titre?: string,
+  ingredients?: Ingredient[],
+  etapes?: Etape[],
+  tempsCuisson?: number,
+  tempsPreparation?: number,
+  portions?: number,
+  auteur?: string,            
+  dateCreation?: Date,        
+): IRecette {
+  return {
+    _id: _id, 
+    titre: titre ?? '',
+    ingredients: ingredients ?? [],
+    etapes: etapes ?? [],
+    tempsCuisson: tempsCuisson ?? 0,
+    tempsPreparation: tempsPreparation ?? 0,
+    portions: portions ?? 0,
+    auteur: auteur,            
+    dateCreation: dateCreation 
+  };
+}
+
+// Validation de l'id
+function isId(arg: unknown): boolean {
+  return !!arg && typeof arg === 'string';
+}
+
+export function fromId(param: unknown): string {
+  if (!isId(param)) {
+    throw new Error("Le paramètre d'id n'est pas conformes");
+  }
+  const p = param as string;
+  return p;
+}
+
+// Validation de titre
+function isTitle(arg: unknown): boolean {
+  return !!arg && typeof arg === 'string';
+}
+
+export function fromTitle(param: unknown): string {
+  if (!isTitle(param)) {
+    throw new Error("Les paramètres du titre ne sont pas conformes");
+  }
+  const p = param as string;
+  return p;
+}
+
+mongoose.pluralize(null);
+const RecetteModel = mongoose.model<IRecette>('recettes', recetteSchema);
 
 export default RecetteModel;

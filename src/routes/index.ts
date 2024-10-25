@@ -1,28 +1,25 @@
 import { Router } from 'express';
-
 import Paths from '../common/Paths';
-
-
+import RecetteRoutes from './RecetteRoute';
 // **** Variables **** //
 
 const apiRouter = Router();
 
+const recetteRouter = new RecetteRoutes();
 
 // ** Add UserRouter ** //
 
 // Init router
-const userRouter = Router();
+const RecetteRouter = Router();
 
-// Get all users
-/*
-userRouter.get(Paths.Users.Get, UserRoutes.getAll);
-userRouter.post(Paths.Users.Add, UserRoutes.add);
-userRouter.put(Paths.Users.Update, UserRoutes.update);
-userRouter.delete(Paths.Users.Delete, UserRoutes.delete);
-*/
-// Add UserRouter
-apiRouter.use(Paths.Users.Base, userRouter);
-
+// Add Recette Router
+RecetteRouter.get(Paths.Recette.Get, recetteRouter.getAll);
+RecetteRouter.get(Paths.Recette.GetOne, recetteRouter.getOne)
+RecetteRouter.get(Paths.Recette.GetTitle, recetteRouter.getByTitle);
+RecetteRouter.post(Paths.Recette.Add, recetteRouter.add)
+RecetteRouter.delete(Paths.Recette.Delete, recetteRouter.deleteOne)
+RecetteRouter.put(Paths.Recette.Update, recetteRouter.ModifierRecette)
+apiRouter.use(Paths.Recette.Base, RecetteRouter);
 
 // **** Export default **** //
 
