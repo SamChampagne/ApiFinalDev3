@@ -43,10 +43,10 @@ class RecetteRepos {
 
     // Fonction qui cherche une recette par son titre
     async GetByTitle(titre: string): Promise<IRecette | null> {
-        const recetteTrouver = await RecetteBd.findOne({ title: titre });
+        const recetteTrouver = await RecetteBd.findOne({ titre: titre });
 
         if (!recetteTrouver) {
-            console.log("Recette non trouvée avec ce titre: ", titre);
+            console.log("Recette non trouvée avec ce titre:", titre);
             return null;
         }
 

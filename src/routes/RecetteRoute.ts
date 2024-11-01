@@ -36,15 +36,23 @@ class RecetteRouter {
         const messageSuppression = "Élément supprimer parfaitement"
         return res.status(HttpStatusCodes.OK).json({messageSuppression})
     }
-    async getByTitle(req: IReq, res: IRes){
-        const title = fromTitle(req.query.title);
-        console.log("Title: ", title)
-        const messageErreur = "Aucune recette trouvé avec ce titre"
-        const recetteTrouver = await RecetteServices.GetByTitle(title);
-        if(recetteTrouver == null){
-            return res.status(HttpStatusCodes.EXPECTATION_FAILED).json({messageErreur})
+    async getByTitle(req: IReq, res: IRes) {
+        // Utilise req.params.title pour récupérer le paramètre d'URL
+        const title = req.params.title;
+        
+        // Valide directement le paramètre en passant title à fromTitle
+        const validerTitle = fromTitle(title);
+        validerTitle.trim();
+        console.log("Title:",validerTitle);
+        
+        const messageErreur = "Aucune recette trouvée avec ce titre";
+        const recetteTrouver = await RecetteServices.GetByTitle(validerTitle);
+        
+        if (recetteTrouver == null) {
+            return res.status(HttpStatusCodes.EXPECTATION_FAILED).json({ messageErreur });
         }
-        return res.status(HttpStatusCodes.OK).json({recetteTrouver})
+        
+        return res.status(HttpStatusCodes.OK).json({ recetteTrouver });
     }
     async ModifierRecette(req: IReq, res: IRes){
         const recette: IRecette = from(req.body);
