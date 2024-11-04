@@ -8,7 +8,7 @@ import path from 'path';
 import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
-
+const cors = require('cors');
 import 'express-async-errors';
 
 import BaseRouter from '@src/routes';
@@ -31,7 +31,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(EnvVars.CookieProps.Secret));
-
+app.use
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
   app.use(morgan('dev'));
@@ -41,7 +41,9 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(helmet());
 }
-
+app.use(cors({
+  origin: 'http://localhost:5173', // Your React app's URL
+}));
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);
 
