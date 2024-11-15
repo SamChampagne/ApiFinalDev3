@@ -14,4 +14,15 @@ export default {
     GetOne:'/:id',
     GetTitle:'/title/:title',
   },
+  Utilisateur: {
+    Base: '/utilisateur',
+    Add: '/ajouter', 
+    GetOne: '/:id',
+    Delete: '/delete/:id', 
+    GetEmail: '/email/:email'
+  },
+  GenerateToken: {
+    Base: '/generatetoken',
+    Get: '/',
+  },
 } as const;
