@@ -47,7 +47,7 @@ app.use(cors({
 app.use(Paths.Base, BaseRouter); // Paths.Base est '/api'
 
 // Charger le fichier YAML
-const swaggerDocument = yamljs.load(path.join(__dirname, './doc/swagger.yaml'));
+const swaggerDocument = yamljs.load(path.join('./src/doc/swagger.yaml'));
 
 // Ajouter Swagger comme middleware
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); // Serve Swagger on the root path '/'
