@@ -10,6 +10,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 const cors = require('cors');
 import 'express-async-errors';
+import swaggerUi from 'swagger-ui-express';
+import yamljs from 'yamljs';
 
 import BaseRouter from '@src/routes';
 import Paths from '@src/common/Paths';
@@ -44,6 +46,12 @@ app.use(cors({
 // Ajouter les APIs, doit être après les middlewares
 app.use(Paths.Base, BaseRouter); // Paths.Base est '/api'
 
+// Charger le fichier YAML
+const swaggerDocument = yamljs.load(path.join(__dirname, './doc/swagger.yaml'));
+
+// Ajouter Swagger comme middleware
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); // Serve Swagger on the root path '/'
+
 // Gestion des erreurs
 app.use((
   err: Error,
@@ -65,11 +73,6 @@ app.use((
 // Set static directory (js and css).
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
-
-// Nav to users pg by default
-app.get('/', (_: Request, res: Response) => {
-  return res.redirect('/api'); 
-});
 
 // **** Export default **** //
 export default app;

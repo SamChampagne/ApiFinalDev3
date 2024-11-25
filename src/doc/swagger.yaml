@@ -1,0 +1,354 @@
+openapi: 3.0.0
+info:
+  title: API de gestion des utilisateurs et des recettes
+  description: API pour gérer les utilisateurs et les recettes
+  version: 1.0.0
+paths:
+  /api/recette:
+    get:
+      summary: Récupérer toutes les recettes
+      description: Permet de récupérer toutes les recettes.
+      operationId: getAllRecettes
+      responses:
+        '200':
+          description: Liste des recettes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recette'
+
+    post:
+      summary: Ajouter une nouvelle recette
+      description: Permet d'ajouter une nouvelle recette.
+      operationId: ajouterRecette
+      requestBody:
+        description: Les informations de la recette à ajouter.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                  description: Le titre de la recette
+                ingredients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nom:
+                        type: string
+                        description: Le nom de l'ingrédient
+                      quantite:
+                        type: string
+                        description: La quantité de l'ingrédient
+                etapes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      description:
+                        type: string
+                        description: La description de l'étape
+                      ordre:
+                        type: integer
+                        description: L'ordre de l'étape
+                tempsPreparation:
+                  type: integer
+                  description: Le temps de préparation en minutes
+                tempsCuisson:
+                  type: integer
+                  description: Le temps de cuisson en minutes
+                portions:
+                  type: integer
+                  description: Le nombre de portions
+                auteur:
+                  type: string
+                  description: L'auteur de la recette (optionnel)
+                dateCreation:
+                  type: string
+                  format: date
+                  description: La date de création (optionnel)
+      responses:
+        '201':
+          description: Recette créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recette'
+        '400':
+          description: Données invalides
+
+  /api/recette/delete/{id}:
+    delete:
+      summary: Supprimer une recette par son ID
+      description: Supprime une recette en fonction de son ID.
+      operationId: deleteRecetteById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: L'ID de la recette à supprimer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recette supprimée avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Recette supprimée avec succès"
+        '404':
+          description: Recette non trouvée
+
+  /api/recette/{id}:
+    get:
+      summary: Récupérer une recette par son ID
+      description: Permet de récupérer les informations d'une recette en fonction de son ID.
+      operationId: getRecetteById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: L'ID de la recette
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recette trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recette'
+        '404':
+          description: Recette non trouvée
+
+  /api/recette/title/{title}:
+    get:
+      summary: Trouver une recette par son titre
+      description: Permet de trouver une recette en fonction de son titre.
+      operationId: getRecetteByTitle
+      parameters:
+        - in: path
+          name: title
+          required: true
+          description: Le titre de la recette
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recette trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recette'
+        '404':
+          description: Recette non trouvée
+
+  /api/utilisateur/ajouter:
+    post:
+      summary: Ajouter un nouvel utilisateur
+      description: Permet d'ajouter un nouvel utilisateur.
+      operationId: ajouterUtilisateur
+      requestBody:
+        description: Les informations de l'utilisateur à ajouter.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom:
+                  type: string
+                  description: Le nom de l'utilisateur
+                email:
+                  type: string
+                  description: L'email de l'utilisateur
+                
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '400':
+          description: Données invalides
+
+  /api/utilisateur/{id}:
+    get:
+      summary: Récupérer un utilisateur par son ID
+      description: Permet de récupérer les informations d'un utilisateur en fonction de son ID.
+      operationId: getUtilisateurById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: L'ID de l'utilisateur
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Utilisateur trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '404':
+          description: Utilisateur non trouvé
+
+    delete:
+      summary: Supprimer un utilisateur par son ID
+      description: Supprime un utilisateur en fonction de son ID.
+      operationId: deleteUtilisateurById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: L'ID de l'utilisateur à supprimer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Utilisateur supprimé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Utilisateur supprimé avec succès"
+        '404':
+          description: Utilisateur non trouvé
+
+  /api/utilisateur/email/{email}:
+    get:
+      summary: Trouver un utilisateur par son email
+      description: Permet de trouver un utilisateur en fonction de son email.
+      operationId: getUtilisateurByEmail
+      parameters:
+        - in: path
+          name: email
+          required: true
+          description: L'email de l'utilisateur à rechercher
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Utilisateur trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '404':
+          description: Aucun utilisateur trouvé avec cet email
+
+  /api/generatetoken:
+    post:
+      summary: Générer un token
+      description: Permet de générer un token pour l'utilisateur.
+      operationId: generateToken
+      parameters:
+        - in: query
+          name: nom
+          required: true
+          description: Le nom de l'utilisateur
+          schema:
+            type: string
+        - in: query
+          name: email
+          required: true
+          description: L'email de l'utilisateur
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token généré avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Le token généré
+        '400':
+          description: Paramètres manquants ou invalides
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Une description de l'erreur
+
+components:
+  schemas:
+    Utilisateur:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: L'ID de l'utilisateur
+        nom:
+          type: string
+          description: Le nom de l'utilisateur
+        email:
+          type: string
+          description: L'email de l'utilisateur
+        
+    
+    Recette:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: L'ID de la recette
+        titre:
+          type: string
+          description: Le titre de la recette
+        ingredients:
+          type: array
+          items:
+            type: object
+            properties:
+              nom:
+                type: string
+                description: Le nom de l'ingrédient
+              quantite:
+                type: string
+                description: La quantité de l'ingrédient
+        etapes:
+          type: array
+          items:
+            type: object
+            properties:
+              description:
+                type: string
+                description: La description de l'étape
+              ordre:
+                type: integer
+                description: L'ordre de l'étape
+        tempsPreparation:
+          type: integer
+          description: Le temps de préparation en minutes
+        tempsCuisson:
+          type: integer
+          description: Le temps de cuisson en minutes
+        portions:
+          type: integer
+          description: Le nombre de portions
+        auteur:
+          type: string
+          description: L'auteur de la recette (optionnel)
+        dateCreation:
+          type: string
+          format: date
+          description: La date de création (optionnel)
