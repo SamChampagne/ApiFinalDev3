@@ -29,19 +29,7 @@ class UtilisateurRouter {
         return res.status(HttpStatusCodes.OK).json({ utilisateurTrouver });
     }
 
-    // Supprimer un utilisateur par son ID
-    async SupprimerUser(req: IReq, res: IRes) {
-        const id = fromId(req.params.id);  // Récupérer l'ID depuis les paramètres
-        console.log("Router id :", id);
-        const utilisateurSupprime = await utilisateurServices.supprimerUser(id);
-        const messageSuppression = "Utilisateur supprimé avec succès";
-
-        if (!utilisateurSupprime) {
-            return res.status(HttpStatusCodes.EXPECTATION_FAILED).json({ message: "Erreur lors de la suppression" });
-        }
-
-        return res.status(HttpStatusCodes.OK).json({ messageSuppression });
-    }
+    
     // trouver un utilisateur par email
     async TrouverParEmailUser(req: IReq, res: IRes) {
         const email = fromEmail(req.params.email);

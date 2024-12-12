@@ -12,15 +12,9 @@ class UtilisateurService {
     async trouverParIdUser(id: string): Promise<IUtilisateur | null> {
         return await utilisateurRepos.trouverParIdUser(id);
     }
-
     // Méthode pour ajouter un nouvel utilisateur
     async ajouterUser(user: IUtilisateur): Promise<IUtilisateur> {
         return await utilisateurRepos.ajouterUser(user);
-    }
-
-    // Méthode pour supprimer un utilisateur par son ID
-    async supprimerUser(id: string): Promise<boolean> {
-        return await utilisateurRepos.supprimerUser(id);
     }
 
     // Méthode pour vérifier si un utilisateur existe

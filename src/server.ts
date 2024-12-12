@@ -22,6 +22,7 @@ import { NodeEnvs } from '@src/common/misc';
 
 // **** Variables **** //
 const app = express();
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://finaldev3.netlify.app'];
 
 // **** Setup **** //
 // Basic middleware
@@ -40,7 +41,13 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 }
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Votre URL de l'application React
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Origine autorisée
+    } else {
+      callback(new Error('Non autorisé par CORS'));
+    }
+  },
 }));
 
 // Ajouter les APIs, doit être après les middlewares
