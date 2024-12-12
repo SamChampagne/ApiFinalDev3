@@ -1,43 +1,58 @@
-## About
+## À propos
 
-This project was created with [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
+Ce projet a été créé avec [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
 
+L'application utilise une base de données MongoDB hébergée sur [MongoDB Atlas](https://www.mongodb.com/atlas). Elle inclut plusieurs modèles, tels qu'un modèle pour les recettes et un autre pour les utilisateurs. L'API est hébergée sur [Render](https://render.com).
 
-## Available Scripts
+## Scripts disponibles
 
 ### `npm run dev`
 
-Run the server in development mode.
+Lance le serveur en mode développement.
 
 ### `npm test`
 
-Run all unit-tests with hot-reloading.
+Exécute tous les tests unitaires avec rechargement à chaud.
 
-### `npm test -- --testFile="name of test file" (i.e. --testFile=Users).`
+### `npm test -- --testFile="nom du fichier de test" (ex. --testFile=Users).`
 
-Run a single unit-test.
+Exécute un test unitaire spécifique.
 
 ### `npm run test:no-reloading`
 
-Run all unit-tests without hot-reloading.
+Exécute tous les tests unitaires sans rechargement à chaud.
 
 ### `npm run lint`
 
-Check for linting errors.
+Vérifie les erreurs de linting.
 
 ### `npm run build`
 
-Build the project for production.
+Construit le projet pour la production.
 
 ### `npm start`
 
-Run the production build (Must be built first).
+Lance la version de production (doit être construite au préalable).
 
-### `npm start -- --env="name of env file" (default is production).`
+### `npm start -- --env="nom du fichier d'environnement" (par défaut : production).`
 
-Run production build with a different env file.
+Lance la version de production avec un fichier d'environnement spécifique.
 
+## Base de données
 
-## Additional Notes
+Cette application utilise une base de données MongoDB hébergée sur **MongoDB Atlas**. Elle inclut les modèles suivants :
 
-- If `npm run dev` gives you issues with bcrypt on MacOS you may need to run: `npm rebuild bcrypt --build-from-source`. 
+1. **Modèle Utilisateur** :
+   - Gère l'authentification, les rôles, et les données spécifiques aux utilisateurs.
+
+2. **Modèle Recette** :
+   - Stocke les informations sur les recettes, y compris les ingrédients, les étapes et les métadonnées.
+
+## Hébergement
+
+L'API est déployée et accessible via **Render**.
+
+## Notes supplémentaires
+
+- Si `npm run dev` pose problème avec bcrypt sur macOS, vous devrez peut-être exécuter : `npm rebuild bcrypt --build-from-source`.
+- Assurez-vous que vos variables d'environnement sont correctement configurées pour se connecter à MongoDB Atlas et permettre à Render d'accéder aux informations nécessaires.
