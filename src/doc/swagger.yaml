@@ -202,30 +202,6 @@ paths:
         '404':
           description: Utilisateur non trouvé
 
-    delete:
-      summary: Supprimer un utilisateur par son ID
-      description: Supprime un utilisateur en fonction de son ID.
-      operationId: deleteUtilisateurById
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: L'ID de l'utilisateur à supprimer
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Utilisateur supprimé avec succès
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Utilisateur supprimé avec succès"
-        '404':
-          description: Utilisateur non trouvé
 
   /api/utilisateur/email/{email}:
     get:
