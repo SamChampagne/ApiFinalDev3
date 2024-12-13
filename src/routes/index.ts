@@ -28,7 +28,7 @@ apiRouter.use(Paths.Recette.Base, RecetteRouter);
 const UtilisateurRouter = Router();
 UtilisateurRouter.post(Paths.Utilisateur.Add, utilisateurRouter.ajouterUser); // Pas besoin de jeton ici
 UtilisateurRouter.get(Paths.Utilisateur.GetOne, authenticateToken, utilisateurRouter.trouverParIdUser); // Protection par jeton
-UtilisateurRouter.get(Paths.Utilisateur.GetEmail, authenticateToken, utilisateurRouter.TrouverParEmailUser); // Protection par jeton
+UtilisateurRouter.get(Paths.Utilisateur.GetEmail, utilisateurRouter.TrouverParEmailUser); // Protection par jeton
 apiRouter.use(Paths.Utilisateur.Base, UtilisateurRouter);
 
 // ** Ajouter les routes token ** //
