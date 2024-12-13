@@ -2,7 +2,15 @@
 
 Ce projet a été créé avec [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
 
-L'application utilise une base de données MongoDB hébergée sur [MongoDB Atlas](https://www.mongodb.com/atlas). Elle inclut plusieurs modèles, tels qu'un modèle pour les recettes et un autre pour les utilisateurs. L'API est hébergée sur [Render](https://render.com).
+L'application utilise une base de données MongoDB hébergée sur [MongoDB Atlas](https://www.mongodb.com/atlas). Elle inclut plusieurs modèles, tels qu'un modèle pour les recettes et un autre pour les utilisateurs. L'API est hébergée sur [Render](https://render.com) à l'adresse [apifinaldev3](https://apifinaldev3.onrender.com).
+
+# Lancer le projet en local
+
+### 1. Cloner le dépôt Git
+
+Il faut cloner le dépot sur la machine local
+
+### 2. Lancer en dévéloppement avec "npm run dev" à la racine du projet
 
 ## Scripts disponibles
 
