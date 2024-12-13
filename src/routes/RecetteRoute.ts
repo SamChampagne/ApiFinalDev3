@@ -1,5 +1,5 @@
 
-import RecetteModel, { IRecette, isRecette, from, fromId , fromTitle} from '../models/recette'; 
+import RecetteModel, { IRecette, from, fromId , fromTitle} from '../models/recette'; 
 import HttpStatusCodes from '@src/common/HttpStatusCodes';
 import RecetteService from '@src/services/RecetteService';
 import { IReq, IRes } from './common/types';
@@ -8,16 +8,19 @@ import { IReq, IRes } from './common/types';
 
 const RecetteServices = new RecetteService()
 class RecetteRouter {
+
     async getAll(_: IReq, res: IRes) {
         const recettes = await RecetteServices.getAll();
         return res.status(HttpStatusCodes.OK).json({ recettes });
     }
+
     async add(req: IReq, res: IRes) {
         
         const recette: IRecette = from(req.body); 
         const nouvelleRecette = await RecetteServices.add(recette); // Ajouter la recette via le service
         return res.status(HttpStatusCodes.CREATED).json({ recette: nouvelleRecette }); // Retourner la nouvelle recette
     }
+
     async getOne(req: IReq, res: IRes){
         const id = fromId(req.params.id);
         console.log("Router Id", id);
@@ -29,6 +32,7 @@ class RecetteRouter {
         }
         return res.status(HttpStatusCodes.OK).json({ recetteTrouver });
     }
+
     async deleteOne(req: IReq, res: IRes) {
         const id = fromId(req.params.id);
         console.log("Router id :", id)
@@ -36,6 +40,7 @@ class RecetteRouter {
         const messageSuppression = "Élément supprimer parfaitement"
         return res.status(HttpStatusCodes.OK).json({messageSuppression})
     }
+
     async getByTitle(req: IReq, res: IRes) {
         // Utilise req.params.title pour récupérer le paramètre d'URL
         const title = req.params.title;
@@ -54,6 +59,7 @@ class RecetteRouter {
         
         return res.status(HttpStatusCodes.OK).json({ recetteTrouver });
     }
+
     async ModifierRecette(req: IReq, res: IRes){
         const recette: IRecette = from(req.body);
         console.log("(Route): ",recette.titre) 
