@@ -65,11 +65,14 @@ const recetteSchema = new Schema<IRecette>({
   dateCreation: { type: Date, required: false },  
 });
 
-// Validation de recette
 export function from(param: object): IRecette {
+  console.log("Paramètre reçu :", param);
+  console.log("isRecette(param) :", isRecette(param));
+
   if (!isRecette(param)) {
     throw new Error("Les paramètres de l'objet ne sont pas conformes");
   }
+
   const p = param as IRecette;
   return new_(
     p._id,
@@ -84,19 +87,24 @@ export function from(param: object): IRecette {
   );
 }
 
-export function isRecette(arg: unknown): boolean {
+function isRecette(param: any): param is IRecette {
   return (
-    !!arg &&
-    typeof arg === 'object' &&
-    'titre' in arg &&
-    'ingredients' in arg &&
-    'etapes' in arg &&
-    'tempsPreparation' in arg &&
-    'tempsCuisson' in arg &&
-    'portions' in arg &&
-    (!('_id' in arg) || typeof (arg as any)._id === 'string') &&
-    'auteur' in arg &&
-    'dateCreation' in arg 
+    typeof param.titre === "string" &&
+    Array.isArray(param.ingredients) &&
+    param.ingredients.every(
+      (ingredient: any) =>
+        typeof ingredient.nom === "string" && typeof ingredient.quantite === "string"
+    ) &&
+    Array.isArray(param.etapes) &&
+    param.etapes.every(
+      (etape: any) =>
+        typeof etape.description === "string" && typeof etape.ordre === "number"
+    ) &&
+    typeof param.tempsPreparation === "number" &&
+    typeof param.tempsCuisson === "number" &&
+    typeof param.portions === "number" &&
+    (param.auteur === undefined || typeof param.auteur === "string") &&
+    (param.dateCreation === undefined || param.dateCreation instanceof Date || typeof param.dateCreation === "string")
   );
 }
 

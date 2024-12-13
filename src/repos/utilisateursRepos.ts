@@ -20,12 +20,6 @@ class UtilisateurRepos {
         return nouveauUtilisateur;
     }
 
-    // Supprimer un utilisateur par son ID
-    async supprimerUser(id: string): Promise<boolean> {
-        const result = await UtilisateursBd.findByIdAndDelete(id);
-        return result !== null;
-    }
-
     // Trouver un utilisateur par son email
     async trouverParEmail(email: string): Promise<IUtilisateur | null> {
         const utilisateur = await UtilisateursBd.findOne({ email: email });
