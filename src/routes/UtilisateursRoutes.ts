@@ -36,7 +36,7 @@ class UtilisateurRouter {
         const utilisateur = await utilisateurServices.trouverParEmailUser(email);
         const messageErreur = "Aucun utilisateur trouvé avec ce email";
         if (utilisateur == null) {
-            return res.status(HttpStatusCodes.EXPECTATION_FAILED).json({ messageErreur });
+            return res.status(HttpStatusCodes.OK).json({ messageErreur });
         } 
         return res.status(HttpStatusCodes.OK).json({ utilisateur });
     }
