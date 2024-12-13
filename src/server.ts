@@ -22,7 +22,7 @@ import { NodeEnvs } from '@src/common/misc';
 
 // **** Variables **** //
 const app = express();
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://finaldev3.netlify.app'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://applicationfinaldev3.netlify.app'];
 
 // **** Setup **** //
 // Basic middleware
