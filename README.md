@@ -10,7 +10,9 @@ L'application utilise une base de données MongoDB hébergée sur [MongoDB Atlas
 
 Il faut cloner le dépot sur la machine local
 
-### 2. Lancer en dévéloppement avec "npm run dev" à la racine du projet
+### 3. Lancer en dévéloppement avec "npm run dev" à la racine du projet
+
+Lancer l'application en dévéloppement
 
 ## Scripts disponibles
 
