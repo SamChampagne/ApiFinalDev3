@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
+// Mon modèle
 interface Ingredient {
   nom: string;
   quantite: string;
@@ -22,6 +23,7 @@ export interface IRecette {
   dateCreation?: Date;        
 }
 
+// Création du schéma pour mongoose
 const ingredientSchema = new Schema<Ingredient>({
   nom: { type: String, required: true },
   quantite: { type: String, required: true },
@@ -32,6 +34,7 @@ const etapeSchema = new Schema<Etape>({
   ordre: { type: Number, required: true },
 });
 
+// Validation
 const recetteSchema = new Schema<IRecette>({
   titre: { type: String, required: true },
   ingredients: { 
@@ -65,6 +68,7 @@ const recetteSchema = new Schema<IRecette>({
   dateCreation: { type: Date, required: false },  
 });
 
+// Validation d'une recette
 export function from(param: object): IRecette {
   console.log("Paramètre reçu :", param);
   console.log("isRecette(param) :", isRecette(param));

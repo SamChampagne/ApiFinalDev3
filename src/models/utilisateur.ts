@@ -1,22 +1,34 @@
 import mongoose, { Schema } from 'mongoose';
 
+// interface d'un usager
 export interface IUtilisateur {
     _id?: string; 
     nom: string,
     email: string,
 }
 
-const UtilisateurSchema = new Schema<IUtilisateur> ({
+// Schéma Utilisateur avec validations
+const UtilisateurSchema = new Schema<IUtilisateur>({
     nom: {
         type: String,
-        required: true
+        required: [true, 'Le nom est obligatoire'],  
+        minlength: [3, 'Le nom doit comporter au moins 3 caractères'],  
+        maxlength: [50, 'Le nom ne doit pas dépasser 50 caractères'],  
+        trim: true,  
     },
     email: {
         type: String,
-        required: true
+        required: [true, 'L\'email est obligatoire'], 
+        match: [
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            'Veuillez entrer un email valide',
+        ],  
+        unique: true,  
+        lowercase: true,  
+        trim: true,  
     },
-})
-
+});
+// Validation d'un user
 export function from(param: object): IUtilisateur {
     if (!isUtilisateur(param)) {
         throw new Error("Les paramètres de l'objet ne sont pas conformes");
